@@ -57,34 +57,33 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
-<<<<<<< HEAD
+
 /*const url = 'https://moroccostats.herokuapp.com/stats/coronavirus/countries/morocco/';
 
 var value;*/
-=======
+
 const url = 'https://moroccostats.herokuapp.com/stats/coronavirus/countries/morocco/';
 var value;
->>>>>>> b87c5bec90d6214155f234070a869a0521b6f140
+
 // Listen for incoming activities and route them to your bot main dialog.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (turnContext) => {
         // route to main dialog.
-<<<<<<< HEAD
+
 /*(async () => {
-=======
+
         (async () => {
->>>>>>> b87c5bec90d6214155f234070a869a0521b6f140
+
   const res = await fetch(url);
   const json = await res.json();
   
   value=json.recovered;
-<<<<<<< HEAD
+
 })();*/
-=======
-  console.log("Hello!");
+
   bot.value =json.recovered;
 })();
->>>>>>> b87c5bec90d6214155f234070a869a0521b6f140
+
         await bot.run(turnContext);
     });
 });
@@ -98,18 +97,17 @@ server.get('/api/notify', async (req, res) => {
             //MicrosoftAppCredentials.trustServiceUrl(activity.serviceUrl);
             const reply = { type: ActivityTypes.Message };
             const buttons = [
-<<<<<<< HEAD
+
             { type: ActionTypes.ImBack, title: 'Get', value: 'Get' },
             { type: ActionTypes.ImBack, title: 'Regions', value: 'Regions' }
         ];
         const card = CardFactory.heroCard('', undefined,
             buttons, { text: 'There is some news for you' });
-=======
+
             { type: ActionTypes.ImBack, title: 'Get', value: 'Get' }
         ];
         const card = CardFactory.heroCard('', undefined,
             buttons, { text: 'There is some news' });
->>>>>>> b87c5bec90d6214155f234070a869a0521b6f140
 
         reply.attachments = [card];
             await turnContext.sendActivity(reply);

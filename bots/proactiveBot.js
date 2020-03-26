@@ -19,7 +19,6 @@ request({
 
     if (!error && response.statusCode === 200) {
        Data=body;
-       console.log(body) // Print the json response
     }
 })
 var req = require("request")
@@ -30,12 +29,11 @@ req({
 
     if (!error && response.statusCode === 200) {
        val=body;
-       console.log(body) // Print the json response
     }
 })
         super();
 
-        // Dependency injected dictionary for storing ConversationReference objects used in NotifyController to proactively message users
+
         this.conversationReferences = conversationReferences;
 
         this.onConversationUpdate(async (context, next) => {
@@ -44,15 +42,7 @@ req({
 
             await next();
         });
-	/*this.onEvent(async (context, next) => {
-	(async () => {
-  const res = await fetch(url);
-  const json = await res.json();
-  
-  value=json.recovered;
-  console.log("Hello!");
-})();
-	});*/
+
         this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
@@ -75,7 +65,6 @@ request({
 
     if (!error && response.statusCode === 200) {
        Data=body;
-       console.log(body) // Print the json response
     }
 })
 
@@ -104,10 +93,9 @@ req({
 
     if (!error && response.statusCode === 200) {
        val=body;
-       console.log(body) // Print the json response
     }
 })
-	 reply.text=` Beni Mellal Khenifra: '${ val.BeniMellalKhnifra }'.\n Daraa tafilalet: '${ val.Daraatafilalet }'.\n Fès Meknes: '${ val.Fsmeknes }'.\n Oriental: '${ val.Oriental }'.\n Souss Massa: '${ val.SoussMassa }'.\n Casa Settat: '${ val.CasaSettat }'.\n Guelmim OuedNoun: '${ val.GuelmimOuedNoun }'.\n Marrakech Safi: '${ val.MarrakechSafi }'.\n Rabat Salé Kenitra: '${ val.RabatSalKenitra }'.\n Tanger Tetouan AlHoceima: '${ val.TangerTetouanAlHoceima }'.\n`;
+	 reply.text=` Beni Mellal Khenifra: '${ val.BeniMellalKhnifra }'.\nDaraa tafilalet: '${ val.Daraatafilalet }'.\nFès Meknes: '${ val.Fsmeknes }'.\nOriental: '${ val.Oriental }'.\nSouss Massa: '${ val.SoussMassa }'.\nCasa Settat: '${ val.CasaSettat }'.\nGuelmim OuedNoun: '${ val.GuelmimOuedNoun }'.\nMarrakech Safi: '${ val.MarrakechSafi }'.\nRabat Salé Kenitra: '${ val.RabatSalKenitra }'.\nTanger Tetouan AlHoceima: '${ val.TangerTetouanAlHoceima }'.\n`;
 	 await context.sendActivity(reply);
 	 await next();	
 	}
@@ -121,28 +109,13 @@ request({
        console.log(value) // Print the json response
     }
 })
-/*const res =  fetch(url);
-const json = res.json();
-  
-  value=json.recovered;
-  console.log("Hello!");*/
 	 reply.text=value;
-	 await context.sendActivity(reply);
+	 //await context.sendActivity(reply);
 	 await next();	        
 	}
 	
 	
 });
-        /*this.onMessage(async (context, next) => {
-
-            this.addConversationReference(context.activity);
-            
-
-
-            // Echo back what the user said
-            
-            await next();
-        });*/
     }
 
     addConversationReference(activity) {
