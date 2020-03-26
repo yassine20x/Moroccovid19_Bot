@@ -79,7 +79,7 @@ request({
             { type: ActionTypes.ImBack, title: 'Regions', value: 'Regions' }
         ];
         const card = CardFactory.heroCard('', undefined,
-            buttons, { text: `Morocco\nTotal Cases: '${ Data.totalcases }'.\nNewcases: '${ Data.newcases }'.\nTotal Deaths: '${ Data.totaldeaths }'.\nNew Deaths: '${ Data.newdeaths }'.\nRecovered: '${ Data.recovered }'.\nActive cases: '${ Data.activecases }'.\n` });
+            buttons, { text: `Morocco\r\nTotal Cases: '${ Data.totalcases }'\r\nNewcases: '${ Data.newcases }'\r\nTotal Deaths: '${ Data.totaldeaths }'\r\nNew Deaths: '${ Data.newdeaths }'\r\nRecovered: '${ Data.recovered }'\r\nActive cases: '${ Data.activecases }'\r\n` });
 
         reply.attachments = [card];
 	   await context.sendActivity(reply);
@@ -95,7 +95,7 @@ req({
        val=body;
     }
 })
-	 reply.text=` Beni Mellal Khenifra: '${ val.BeniMellalKhnifra }'.\nDaraa tafilalet: '${ val.Daraatafilalet }'.\nFès Meknes: '${ val.Fsmeknes }'.\nOriental: '${ val.Oriental }'.\nSouss Massa: '${ val.SoussMassa }'.\nCasa Settat: '${ val.CasaSettat }'.\nGuelmim OuedNoun: '${ val.GuelmimOuedNoun }'.\nMarrakech Safi: '${ val.MarrakechSafi }'.\nRabat Salé Kenitra: '${ val.RabatSalKenitra }'.\nTanger Tetouan AlHoceima: '${ val.TangerTetouanAlHoceima }'.\n`;
+	 reply.text=` Beni Mellal Khenifra: '${ val.BeniMellalKhnifra }'\r\nDaraa tafilalet: '${ val.Daraatafilalet }'\r\nFès Meknes: '${ val.Fsmeknes }'\r\nOriental: '${ val.Oriental }'\r\nSouss Massa: '${ val.SoussMassa }'\r\nCasa Settat: '${ val.CasaSettat }'\r\nGuelmim OuedNoun: '${ val.GuelmimOuedNoun }'\r\nMarrakech Safi: '${ val.MarrakechSafi }'\r\nRabat Salé Kenitra: '${ val.RabatSalKenitra }'\r\nTanger Tetouan AlHoceima: '${ val.TangerTetouanAlHoceima }'.\n`;
 	 await context.sendActivity(reply);
 	 await next();	
 	}

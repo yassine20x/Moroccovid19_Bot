@@ -62,9 +62,6 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 
 var value;*/
 
-const url = 'https://moroccostats.herokuapp.com/stats/coronavirus/countries/morocco/';
-var value;
-
 // Listen for incoming activities and route them to your bot main dialog.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (turnContext) => {
@@ -72,11 +69,8 @@ server.post('/api/messages', (req, res) => {
 
 /*(async () => {
 
-        (async () => {
-
   const res = await fetch(url);
   const json = await res.json();
-  
   value=json.recovered;
 
 })();*/
