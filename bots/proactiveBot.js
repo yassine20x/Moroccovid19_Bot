@@ -32,8 +32,6 @@ req({
     }
 })
         super();
-
-
         this.conversationReferences = conversationReferences;
 
         this.onConversationUpdate(async (context, next) => {
@@ -56,7 +54,7 @@ req({
             await next();
         });
 this.onMessage(async (context, next) => {
-this.addConversationReference(context.activity);
+
 const reply = { type: ActivityTypes.Message };
 request({
     url: url,
@@ -67,60 +65,79 @@ request({
        Data=body;
     }
 })
+switch(context.activity.text) {
+  case 'Get Started':
+  context.sendActivities([
+   { type: ActivityTypes.Typing },
+   { type: 'delay', value: 3000 },
+   { type: ActivityTypes.Message, text: `Welcome {{user_first_name}}! Thank you for subscribing. You will receive the incoming news of Covid-19 in Morocco soon, stay tuned!\r\n
+   If you ever want to unsubscribe just type 'stop'` }
+ ]);
+    break;
+  case 'Get':
+  const buttons = [
+        { type: ActionTypes.ImBack, title: 'Regions', value: 'Regions' }
+    ];
+    const card = CardFactory.heroCard('', undefined,
+        buttons, { text: `Morocco\r\nTotal Cases: '${ Data.totalcases }'\r\nNewcases: '${ Data.newcases }'\r\nTotal Deaths: '${ Data.totaldeaths }'\r\nNew Deaths: '${ Data.newdeaths }'\r\nRecovered: '${ Data.recovered }'\r\nActive cases: '${ Data.activecases }'\r\n` });
 
-	if (context.activity.text === 'wait') {
-		 context.sendActivities([
-			{ type: ActivityTypes.Typing },
-			{ type: 'delay', value: 3000 },
-			{ type: ActivityTypes.Message, text: `You said '${ context.activity.text }'.` }
-		]);
-	} else if (context.activity.text === 'Get'){
-	    const buttons = [
-            { type: ActionTypes.ImBack, title: 'Regions', value: 'Regions' }
-        ];
-        const card = CardFactory.heroCard('', undefined,
-            buttons, { text: `Morocco\r\nTotal Cases: '${ Data.totalcases }'\r\nNewcases: '${ Data.newcases }'\r\nTotal Deaths: '${ Data.totaldeaths }'\r\nNew Deaths: '${ Data.newdeaths }'\r\nRecovered: '${ Data.recovered }'\r\nActive cases: '${ Data.activecases }'\r\n` });
+    reply.attachments = [card];
+ await context.sendActivity(reply);
+await next();
+    break;
+    case 'Regions':
+    req({
+        url: url2,
+        json: true
+    }, function (error, response, body) {
 
-        reply.attachments = [card];
-	   await context.sendActivity(reply);
-	 await next();
-	}
-	else if (context.activity.text === 'Regions'){
-req({
-    url: url2,
-    json: true
-}, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+           val=body;
+        }
+    })
+    	 reply.text=` Beni Mellal Khenifra: '${ val.BeniMellalKhnifra }'\r\nDaraa tafilalet: '${ val.Daraatafilalet }'\r\nFès Meknes: '${ val.Fsmeknes }'\r\nOriental: '${ val.Oriental }'\r\nSouss Massa: '${ val.SoussMassa }'\r\nCasa Settat: '${ val.CasaSettat }'\r\nGuelmim OuedNoun: '${ val.GuelmimOuedNoun }'\r\nMarrakech Safi: '${ val.MarrakechSafi }'\r\nRabat Salé Kenitra: '${ val.RabatSalKenitra }'\r\nTanger Tetouan AlHoceima: '${ val.TangerTetouanAlHoceima }'.\n`;
+    	 await context.sendActivity(reply);
+    	 await next();
+    break;
+    case 'stop':
+	this.delConversationReference(context.activity);
+  reply.text="We are sorry for the incovenience. If you ever want to go back, and subscribe please type 'start' ";
+  await context.sendActivity(reply);
+  await next();
+    break;
+    case 'Help':
+    reply.text="Moroccovid-19 Bot\r\nUsage: 'Get' to get the latest news of Morocco\r\n\t'Regions' to get the latest news of the regions of Morocco\r\nThank you!";
+    await context.sendActivity(reply);
+    await next();
+    break;
 
-    if (!error && response.statusCode === 200) {
-       val=body;
-    }
-})
-	 reply.text=` Beni Mellal Khenifra: '${ val.BeniMellalKhnifra }'\r\nDaraa tafilalet: '${ val.Daraatafilalet }'\r\nFès Meknes: '${ val.Fsmeknes }'\r\nOriental: '${ val.Oriental }'\r\nSouss Massa: '${ val.SoussMassa }'\r\nCasa Settat: '${ val.CasaSettat }'\r\nGuelmim OuedNoun: '${ val.GuelmimOuedNoun }'\r\nMarrakech Safi: '${ val.MarrakechSafi }'\r\nRabat Salé Kenitra: '${ val.RabatSalKenitra }'\r\nTanger Tetouan AlHoceima: '${ val.TangerTetouanAlHoceima }'.\n`;
-	 await context.sendActivity(reply);
-	 await next();	
-	}
-	 else {
-request({
-    url: url,
-    json: true
-}, function (error, response, body) {
-    if (!error && response.statusCode === 200) {
-       value=JSON.stringify(body);
-       console.log(value) // Print the json response
-    }
-})
-	 reply.text=value;
-	 //await context.sendActivity(reply);
-	 await next();	        
-	}
-	
-	
+  default:
+  // request({
+  //     url: url,
+  //     json: true
+  // }, function (error, response, body) {
+  //     if (!error && response.statusCode === 200) {
+  //        value=JSON.stringify(body);
+  //        console.log(value) // Print the json response
+  //     }
+  // })
+     //reply.text=value;
+     //await context.sendActivity(reply);
+     await next();
+}
+
 });
     }
-
+    delConversationReference(activity) {
+        const conversationReference = TurnContext.getConversationReference(activity);
+        delete this.conversationReferences[conversationReference.conversation.id] ;
+        console.log(this.conversationReferences)
+    }
     addConversationReference(activity) {
         const conversationReference = TurnContext.getConversationReference(activity);
+        console.log(conversationReference)
         this.conversationReferences[conversationReference.conversation.id] = conversationReference;
+        console.log(this.conversationReferences)
     }
 }
 

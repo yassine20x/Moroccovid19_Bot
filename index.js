@@ -6,7 +6,6 @@
 // Import required packages
 const path = require('path');
 const restify = require('restify');
-
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter,ActionTypes, ActivityTypes, CardFactory } = require('botbuilder');
@@ -57,74 +56,10 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
-
 /*const url = 'https://moroccostats.herokuapp.com/stats/coronavirus/countries/morocco/';
 
 var value;*/
 
-const request = require('request')
-function setupGetStartedButton(res){
-const uri ="https://graph.facebook.com/v6.0/me/messenger_profile?access_token=EAAJIMNv9szgBAAo3ZBjL487aV33ZAFxcBhQA2ULUjlyonKMQldpPJc6fKJmHNyVlOBlWZCKGVXsKquDfWkgd4i4I6LzISsS7nNCw7bJAzdmZAPsUHOE7QeqNrLRDegB6LnSdC3ZBPgirxWaspZBZBc6y9ZCphalyrriEZBGPTroqZAVP16xmZBhsMfX86hbGcUOy0wZD"
-
-const a={ 
-  "get_started":{
-    "payload":"Get Started"
-  }
-};
-
-        // Start the request
-        request({
-            url: uri,
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            form: a
-        },
-        function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                // Print out the response body
-                res.send(body);
-
-            } else { 
-                // TODO: Handle errors
-                res.send(body);
-            }
-        });
-    }     
-    server.get('/setup',function(req,res){
-
-    setupGetStartedButton(res);
-})
-server.post('/webhook', function (req, res) {
-var data = req.body;
-
-// Make sure this is a page subscription
-if (data.object === 'page') {
-
-    // Iterate over each entry - there may be multiple if batched
-    data.entry.forEach(function(entry) {
-    var pageID = entry.id;
-    var timeOfEvent = entry.time;
-
-    // Iterate over each messaging event
-    entry.messaging.forEach(function(event) {
-        if (event.message) {
-        //receivedMessage(event);
-        } else {
-            // If the event is a postback and has a payload equals USER_DEFINED_PAYLOAD 
-        if(event.postback && event.postback.payload === "Get Started" )
-        {
-                //present user with some greeting or call to action
-                var msg = "Hi ,I'm a Bot ,and I was created to help you easily .... "
-                //sendMessage(event.sender.id,msg);      
-        }      
-
-        }
-    });
-    });
-
-    res.sendStatus(200);
-}
-});
 // Listen for incoming activities and route them to your bot main dialog.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (turnContext) => {
