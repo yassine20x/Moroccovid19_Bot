@@ -67,12 +67,12 @@ request({
 })
 switch(context.activity.text) {
   case 'Get Started':
-  context.sendActivities([
+  await context.sendActivities([
    { type: ActivityTypes.Typing },
    { type: 'delay', value: 3000 },
-   { type: ActivityTypes.Message, text: `Welcome {{user_first_name}}! Thank you for subscribing. You will receive the incoming news of Covid-19 in Morocco soon, stay tuned!\r\n
-   If you ever want to unsubscribe just type 'stop'` }
+   { type: ActivityTypes.Message, text: 'Welcome ! Thank you for subscribing. You will receive the incoming news of Covid-19 in Morocco soon, stay tuned!\r\nIf you ever want to unsubscribe just type `stop`' }
  ]);
+  await next();
     break;
   case 'Get':
   const buttons = [
@@ -105,7 +105,7 @@ await next();
   await context.sendActivity(reply);
   await next();
     break;
-    case 'Help':
+    case 'help':
     reply.text="Moroccovid-19 Bot\r\nUsage: 'Get' to get the latest news of Morocco\r\n\t'Regions' to get the latest news of the regions of Morocco\r\nThank you!";
     await context.sendActivity(reply);
     await next();
