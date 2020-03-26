@@ -66,12 +66,13 @@ request({
     }
 })
 switch(context.activity.text) {
-  case 'Get Started':
+  case 'start':
   await context.sendActivities([
    { type: ActivityTypes.Typing },
-   { type: 'delay', value: 3000 },
+   { type: 'delay', value: 2000 },
    { type: ActivityTypes.Message, text: 'Welcome ! Thank you for subscribing. You will receive the incoming news of Covid-19 in Morocco soon, stay tuned!\r\nIf you ever want to unsubscribe just type `stop`' }
  ]);
+ this.addConversationReference(context.activity);
   await next();
     break;
   case 'Get':
@@ -111,6 +112,7 @@ await next();
     await next();
     break;
 
+
   default:
   // request({
   //     url: url,
@@ -131,7 +133,6 @@ await next();
     delConversationReference(activity) {
         const conversationReference = TurnContext.getConversationReference(activity);
         delete this.conversationReferences[conversationReference.conversation.id] ;
-        console.log(this.conversationReferences)
     }
     addConversationReference(activity) {
         const conversationReference = TurnContext.getConversationReference(activity);
