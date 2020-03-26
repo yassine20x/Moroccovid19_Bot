@@ -81,9 +81,6 @@ server.post('/api/messages', (req, res) => {
 
 })();*/
 
-  bot.value =json.recovered;
-})();
-
         await bot.run(turnContext);
     });
 });
@@ -103,11 +100,6 @@ server.get('/api/notify', async (req, res) => {
         ];
         const card = CardFactory.heroCard('', undefined,
             buttons, { text: 'There is some news for you' });
-
-            { type: ActionTypes.ImBack, title: 'Get', value: 'Get' }
-        ];
-        const card = CardFactory.heroCard('', undefined,
-            buttons, { text: 'There is some news' });
 
         reply.attachments = [card];
             await turnContext.sendActivity(reply);
